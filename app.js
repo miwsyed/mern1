@@ -8,30 +8,14 @@ require("./db/conn"); // Atfirst declare the .env file, then others who come thr
 app.use(express.json());
 const port = process.env.PORT;
 
-app.use(require("./router/auth"));
+app.use(require("./router/registerRouter"));
+app.use(require("./router/loginRouter"));
 // Middleware
 
-const middleware = (req, res, next) => {
-  console.log(`Hello Middelware`);
-  next();
-};
-
-// app.get("/", (req, res) => {
-//   res.send(`Hello World from Express Server`);
-// });
-// app.get("/about", middleware, (req, res) => {
-//   console.log(`hello About page`);
-//   res.send(`Hello About World from Express Server`);
-// });
-// app.get("/contact", (req, res) => {
-//   res.send(`Hello Contact World from Express Server`);
-// });
-// app.get("/signin", (req, res) => {
-//   res.send(`Hello SignIn World from Express Server`);
-// });
-// app.get("/signup", (req, res) => {
-//   res.send(`Hello Registration World from Express Server`);
-// });
+// const middleware = (req, res, next) => {
+//   console.log(`Hello Middelware`);
+//   next();
+// };
 
 app.listen(port, () => {
   console.log(`Server is running at the port ${port}`);

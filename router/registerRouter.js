@@ -1,9 +1,9 @@
 const express = require("express");
-const router = new express.Router();
+const regRouter = new express.Router();
 require("../db/conn");
 const User = require("../models/userSchema");
 
-router.get("/", (req, res) => {
+regRouter.get("/register", (req, res) => {
   res.send("this is server router js");
 });
 
@@ -43,7 +43,7 @@ router.get("/", (req, res) => {
 
 // using async await
 
-router.post("/register", async (req, res) => {
+regRouter.post("/register", async (req, res) => {
   const { name, email, phone, work, password, cpassword } = req.body;
   if (!name || !email || !phone || !work || !password || !cpassword) {
     return res.status(422).json({ error: "Plz fill up all fields properly" });
@@ -69,4 +69,4 @@ router.post("/register", async (req, res) => {
   }
 });
 
-module.exports = router;
+module.exports = regRouter;
