@@ -52,18 +52,21 @@ regRouter.post("/register", async (req, res) => {
     const userExist = await User.findOne({ email: email });
     if (userExist) {
       return res.status(422).json({ error: "Email Id already exist." });
+    } else if (password != cpassword) {
+      return res.status(422).json({ error: "Password doesn't match" });
+    } else {
+      const user = new User({
+        name: name,
+        email: email,
+        phone: phone,
+        work: work,
+        password: password,
+        cpassword: cpassword,
+      });
+      // --------> bcrypt hash will work here
+      await user.save();
+      res.status(201).json({ message: "User Registration Successful" });
     }
-    const user = new User({
-      name: name,
-      email: email,
-      phone: phone,
-      work: work,
-      password: password,
-      cpassword: cpassword,
-    });
-
-    await user.save();
-    res.status(201).json({ message: "User Registration Successful" });
   } catch (error) {
     console.log(error);
   }
