@@ -1,4 +1,5 @@
 const express = require("express");
+const bcrypt = require("bcryptjs");
 const loginRouter = new express.Router();
 require("../db/conn");
 const User = require("../models/userSchema");
@@ -15,10 +16,15 @@ loginRouter.post("/login", async (req, res) => {
     }
     const userinfo = await User.findOne({ email: email });
 
-    if (!userinfo) {
-      res.status(400).json({ error: "Invaild Details" });
+    if (userinfo) {
+      const userpass = await bcrypt.compare(password, userinfo.password);
+      if (userpass) {
+        res.status(200).json({ message: "Congrats! Login Successful" });
+      } else {
+        res.status(400).json({ error: "Invaild password" });
+      }
     } else {
-      res.status(200).json({ message: "Congrats! Login Successful" });
+      res.status(400).json({ error: "Invaild email" });
     }
   } catch (error) {
     console.log(error);
