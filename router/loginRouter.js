@@ -17,7 +17,11 @@ loginRouter.post("/login", async (req, res) => {
     const userinfo = await User.findOne({ email: email });
 
     if (userinfo) {
+      // bcrypt.compare auth password
       const userpass = await bcrypt.compare(password, userinfo.password);
+      // generating token using jwt
+      const token = await userinfo.generateToken();
+      console.log(`This is Token : ${token}`);
       if (userpass) {
         res.status(200).json({ message: "Congrats! Login Successful" });
       } else {
