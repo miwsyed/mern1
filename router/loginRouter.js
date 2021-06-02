@@ -22,6 +22,7 @@ loginRouter.post("/login", async (req, res) => {
       // generating token using jwt
       const token = await userinfo.generateToken();
       console.log(`This is Token : ${token}`);
+      res.cookie("jwt", token);
       if (userpass) {
         res.status(200).json({ message: "Congrats! Login Successful" });
       } else {
